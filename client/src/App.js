@@ -1,25 +1,45 @@
-import logo from './logo.svg';
+import React, {useEffect} from 'react';
 import './App.css';
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Check if api and client are talking to each other
 function App() {
+  const [data, setData] = useEffect('');
+
+  useEffect( () => {
+    fetch('http://localhost:5000/api')
+      .then(res => res.json())
+      .then(data => setData(data.users))
+      .catch(err => console.log('aaah', err))
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ul>
+        {data.map((user, i) => <li key={i}>{user}</li>)}
+      </ul>
     </div>
-  );
+  )
 }
 
 export default App;
