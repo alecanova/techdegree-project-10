@@ -1,45 +1,40 @@
-import React, {useEffect} from 'react';
-import './App.css';
+import React, {Component} from 'react';
+import Courses from './components/Courses'
 
+export default class App extends Component {
+    
+  state = {
+      courses: [],
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Check if api and client are talking to each other
-function App() {
-  const [data, setData] = useEffect('');
-
-  useEffect( () => {
-    fetch('http://localhost:5000/api')
+  componentDidMount() {
+      fetch('http://localhost:5000/api')
       .then(res => res.json())
-      .then(data => setData(data.users))
-      .catch(err => console.log('aaah', err))
-  }, []);
+      .then(data => {
+          this.setState({ courses: data })
+      })
+      .catch(err => {
+          console.log('Error fetching and parsing data', err);
+      })
+  }
 
-  return (
-    <div>
-      <ul>
-        {data.map((user, i) => <li key={i}>{user}</li>)}
-      </ul>
-    </div>
-  )
+  render() {
+    return (
+      <Courses courses={this.state.courses} />
+    )
+  }
 }
 
-export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
