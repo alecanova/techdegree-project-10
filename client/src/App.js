@@ -1,29 +1,30 @@
-import React, {Component} from 'react';
-import Courses from './components/Courses'
+import React from 'react';
+import {
+  BrowserRouter,
+  Route,
+  Switch
+} from 'react-router-dom';
 
-export default class App extends Component {
+// Import all components
+import Courses from './components/Courses';
+
+// Use withContext with all its components.
+import withContext from './Context';
+const CoursesWithContext = withContext(Courses);
+
+
+
+export default () => (
     
-  state = {
-      courses: [],
-  }
+  <BrowserRouter>
+    <main>
+      <Switch>
+        <Route exact path= "/" component={CoursesWithContext} />
+      </Switch>
+    </main>
+  </BrowserRouter>
 
-  componentDidMount() {
-      fetch('http://localhost:5000/api')
-      .then(res => res.json())
-      .then(data => {
-          this.setState({ courses: data })
-      })
-      .catch(err => {
-          console.log('Error fetching and parsing data', err);
-      })
-  }
-
-  render() {
-    return (
-      <Courses courses={this.state.courses} />
-    )
-  }
-}
+)
 
 
 

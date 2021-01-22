@@ -9,6 +9,7 @@ export class Provider extends Component {
 
     constructor() {
         super();
+        //Initialize a new instance of the Data class.
         this.data = new Data();
     } 
 
