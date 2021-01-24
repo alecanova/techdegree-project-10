@@ -9,7 +9,7 @@ export default class Data {
         const options = {
             method,
             headers: {
-                'Content-Type': 'application/json; charset=utf-8'
+                'Content-Type': 'application/json; charset=utf-8',
             },
         };
 
@@ -21,9 +21,11 @@ export default class Data {
     }
 
     async getCourses() {
-        const response = await this.api('/courses');
+        const response = await this.api('/courses', 'GET', null);
         if(response.status === 200) {
             return response.json().then( data => data);
+        } else if (response.status === 401) {
+            return null;
         } else {
             throw new Error();
         }
