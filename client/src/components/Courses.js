@@ -4,7 +4,6 @@ import React, {Component} from 'react';
 export default class Courses extends Component {
 
     state = {
-        
         courses: [],
     }
 
@@ -18,18 +17,20 @@ export default class Courses extends Component {
         // gives access to the data in Data.js and actions in Context.js
         const { context } = this.props;
 
-        try {
-            const courses = await context.data.getCourses();
-            this.setState({ loading: false, courses });
-        } catch (error) {
-            console.log(error);
-        }
+        context.data.getCourses()
+            .then( data => {
+                if(data) {
+                    this.setState({ courses: data});
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
 
     }
 
     render() {
 
-        
             
             return (
                 <div className="bounds">
