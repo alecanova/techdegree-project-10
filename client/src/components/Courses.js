@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import CourseDisplay from './CourseDisplay';
 
 
 export default class Courses extends Component {
@@ -17,38 +18,31 @@ export default class Courses extends Component {
         // gives access to the data in Data.js and actions in Context.js
         const { context } = this.props;
 
-        context.data.getCourses()
-            .then( data => {
-                if(data) {
-                    this.setState({ courses: data});
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        try {
+            // get all the courses from db.
+            const courses = await context.data.getCourses();
+            this.setState({ courses });
+        } catch (error) {
+            console.log(error);
+        }
+        
 
     }
 
     render() {
 
-            
-            return (
-                <div className="bounds">
+        return (
+            <div>
 
-                    { this.state.courses.map( course => {
+                { this.state.courses.map( course => (
 
-                        return(                                                         
-                            <div className="grid-33">
-                                <h4 className="course--label">Course</h4>
-                                <h3 className="course--title">{course.title}</h3>
-                            </div>
-                        );
+                    <CourseDisplay title={course.title} key={course.id} id={course.id}/>
 
-                    })}
-                    
-                </div>
+                ))}
+                
+            </div>
 
-            );
+        );
 
     }
 
