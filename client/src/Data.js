@@ -20,15 +20,48 @@ export default class Data {
         return fetch(url, options);
     }
 
-    async getCourses() {
-        const response = await this.api('/courses', 'GET', null);
+    // Response handler        
+    responseHandler (response, errorMessage) {
+          // 200 OK
         if(response.status === 200) {
             return response.json().then( data => data);
-        } else if (response.status === 401) {
+          // 201 Created
+        } else if(response.status === 201) {
+            return { location: response.headers.get('location') }
+          // 204 No Content
+        } else if(response.status === 204) {
+            return `The server successfully processed the request.`;
+          // 400 Bad Request
+        } else if(response.status === 400) {
+            return response.json().then( data => data);
+          // 401 Unauthorize
+        } else if(response.status === 401) {
             return null;
+          // 403 Forbidden
+        } else if(response.status === 403) {
+            throw new Error('403');
+          // 404 Not Found
+        } else if(response.status === 404) {
+            throw new Error('404');
+          // 500 Internal Server Error
+        } else if(response.status === 500) {
+            throw new Error('500');
         } else {
-            throw new Error();
+            throw new Error(errorMessage);
         }
     }
 
+    /*** COURSE DATA ***/
+
+    // list of courses - /api/courses
+    async getCourses() {
+        const response = await this.api('/courses');
+        return this.responseHandler(response, 'Error getting the courses.');
+    }
+
+    // course detail - /api/courses/:id
+    async getCourse(id) {
+        const response = await this.api('/courses/' + id);
+        return this.responseHandler(response, `Error getting the course with id ${id}`);
+    }
 }
