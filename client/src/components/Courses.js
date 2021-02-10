@@ -32,7 +32,7 @@ export default class Courses extends Component {
     render() {
 
         return (
-            <div>
+            <>
 
                 { this.state.courses.map( course => (
 
@@ -40,7 +40,7 @@ export default class Courses extends Component {
 
                 ))}
                 
-            </div>
+            </>
 
         );
 
