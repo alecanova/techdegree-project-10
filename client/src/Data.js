@@ -2,7 +2,7 @@ import config from './config';
 
 export default class Data {
 
-    api(path, method = 'GET', body = null) {
+    api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
 
         const url = config.apiBaseUrl + path;
 
@@ -16,11 +16,16 @@ export default class Data {
         if (body !== null) {
             options.body = JSON.stringify(body);
         }
+
+        if (requiresAuth) {
+          const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
+          options.headers['Authorization'] = `Basic ${encodedCredentials}`;
+        }
       
         return fetch(url, options);
     }
 
-    // Response handler        
+            
     responseHandler (response, errorMessage) {
           // 200 OK
         if(response.status === 200) {
@@ -64,4 +69,26 @@ export default class Data {
         const response = await this.api('/courses/' + id);
         return this.responseHandler(response, `Error getting the course with id ${id}`);
     }
+
+    // create course 
+    async createCourse(course) {
+      const response = await this.api('/courses/', 'POST', course);
+      return this.responseHandler(response, `Error creating ${course}`);
+    }
+
+    // update course 
+    async updateCourse(course) {
+      const response = await this.api(`/courses/${course.id}`, 'PUT', course);
+      return this.responseHandler(response, `Error updating course ${course.id}`);
+    }
+
+    // delete course 
+    async deleteCourse(id) {
+      const response = await this.api(`/courses/${id}`, 'DELETE');
+      return this.responseHandler(response, `Error deleting course ${id}`);
+    }
+
+    /*** USER DATA ***/
+
+
 }
