@@ -258,7 +258,7 @@ body {
   border-bottom: 1px solid #d5f9fe;
   background: #f8feff;
   padding: 20px 0;
-  margin-top: -30px;
+  margin-top: 30px;
 }
 /* line 2, ../sass/mixins.sass */
 .actions--bar:before, .actions--bar:after {
@@ -295,6 +295,7 @@ a {
 /* line 66, ../sass/global.sass */
 p {
   font-family: "Cousine";
+  margin-top: 30px;
   margin-bottom: 30px;
 }
 
@@ -342,6 +343,7 @@ p {
   background: #7c689b;
   border-radius: 8px;
   padding: 30px;
+  margin-top: 30px;
   margin-bottom: 30px;
   min-height: 107px;
   display: block;
