@@ -90,5 +90,9 @@ export default class Data {
 
     /*** USER DATA ***/
 
+    async getUser(username, password) {
+      const response = await this.api('/users', 'GET', null, true, {username, password});
+      return this.responseHandler(response, 'Error getting the users.');
+    }
 
 }
