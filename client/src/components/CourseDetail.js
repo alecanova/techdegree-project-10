@@ -79,22 +79,22 @@ export default class CourseDetail extends Component {
                 {editButtons}
 
                 <div className="bounds course--detail">
-                    <div class="grid-66">
-                        <div class="course--header">
+                    <div className="grid-66">
+                        <div className="course--header">
                             <h4 className="course--label">Course</h4>
                             <h3 className="course--title">{course.title}</h3>
                             <p>By </p>
                         </div>
                         <div className="course--description">{course.description}</div>
                     </div>
-                    <div class="grid-25 grid-right">
-                        <div class="course--stats">
-                            <ul class="course--stats--list">
-                                <li class="course--stats--list--item">
+                    <div className="grid-25 grid-right">
+                        <div className="course--stats">
+                            <ul className="course--stats--list">
+                                <li className="course--stats--list--item">
                                     <h4>Estimated Time</h4>
                                     <h3>{course.estimatedTime}</h3>
                                 </li>
-                                <li class="course--stats--list--item">
+                                <li className="course--stats--list--item">
                                     <h4>Materials Needed</h4>
                                     <ul>
                                         <li>{course.materialsNeeded}</li>
