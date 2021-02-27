@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Form from './Form';
 
@@ -16,7 +16,11 @@ export default class UserSignIn extends Component {
 
     render () {
 
-        const { username, password, errors } = this.state;
+        const { 
+            username, 
+            password, 
+            errors 
+        } = this.state;
 
         return (
             <div className="bounds">
@@ -27,18 +31,20 @@ export default class UserSignIn extends Component {
                         errors={errors} //da fare
                         submit={this.submit} //da fare
                         submitButtonText="Sign In"
-                        elements={() => (
+                        elements={() => ( // value is a function which returns the input fields to be used in each of the forms
                             <React.Fragment>
                                 <input 
                                     id="emailAddress"
                                     name="emailAddress"
                                     type="text"
+                                    value={username}
                                     onChange={this.change}
                                     placeholder="Email Address" />
                                 <input 
                                     id="password"
                                     name="password"
                                     type="text"
+                                    value={password}
                                     onChange={this.change}
                                     placeholder="Password" />    
                             </React.Fragment>
