@@ -11,6 +11,7 @@ import CourseDetail from './components/CourseDetail';
 import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
 import CreateCourse from './components/CreateCourse';
+import UpdateCourse from './components/UpdateCourse';
 
 // Use withContext with all its components.
 import withContext from './Context';
@@ -20,6 +21,7 @@ const CourseDetailWithContext = withContext(CourseDetail);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignUpWithContext = withContext(UserSignUp);
 const CreateCourseWithContext = withContext(CreateCourse);
+const UpdateCourseWithContext = withContext(UpdateCourse);
 
 
 export default () => (
@@ -32,6 +34,7 @@ export default () => (
         <Route path= "/signin" component={UserSignInWithContext} />
         <Route path= "/signup" component={UserSignUpWithContext} />
         <Route path= "/create" component={CreateCourseWithContext} />
+        <Route path= {`/courses/:id/update`} component={UpdateCourseWithContext} />
       </Switch>
     </main>
   </BrowserRouter>
