@@ -6,8 +6,9 @@ import Form from './Form';
 export default class UserSignUp extends Component {
 
     state = {
-        name: '',
-        username: '',
+        firstName: '',
+        lastName: '',
+        emailAddress: '',
         password: '',
         errors: [],
     }
@@ -15,10 +16,11 @@ export default class UserSignUp extends Component {
     render () {
 
         const {
-            name,
-            username,
+            firstName,
+            lastName,
+            emailAddress,
             password,
-            errors
+            errors,
         } = this.state;
 
         return (
@@ -36,24 +38,28 @@ export default class UserSignUp extends Component {
                                     id="firstName"
                                     name="firstName"
                                     type="text"
+                                    value={firstName}
                                     onChange={this.change}
                                     placeholder="First Name" />
                                 <input 
                                     id="lastName"
                                     name="lastName"
                                     type="text"
+                                    value={lastName}
                                     onChange={this.change}
                                     placeholder="Last Name" /> 
                                 <input 
                                     id="emailAddress"
                                     name="emailAddress"
                                     type="text"
+                                    value={emailAddress}
                                     onChange={this.change}
                                     placeholder="Email Address" />
                                 <input 
                                     id="password"
                                     name="password"
                                     type="text"
+                                    value={password}
                                     onChange={this.change}
                                     placeholder="Password" />
                                 <input 
@@ -85,8 +91,45 @@ export default class UserSignUp extends Component {
         });
     }
 
+    submit = () => {
+        const { context } = this.props;
+      
+        const {
+            firstName,
+            lastName,
+            emailAddress,
+            password,
+        } = this.state; 
+
+        // New user payload
+        const user = {
+            firstName,
+            lastName,
+            emailAddress,
+            password,
+        };
+
+        context.data.createUser(user)
+            .then( errors => {
+                if (errors.length) {
+                    this.setState({ errors });
+                } else {
+                    console.log(`${username} is succesfully signed up and authenticated`);
+                }
+            })
+            .catch( err => { //handle rejected promises
+                console.log(err);
+                this.props.history.push('/errors');
+            });
+    }
+      
+
     cancel = () => {
         this.props.history.push("/");
     }
+
+
+
+
 
 }
