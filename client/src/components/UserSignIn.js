@@ -34,8 +34,8 @@ export default class UserSignIn extends Component {
                         elements={() => ( // value is a function which returns the input fields to be used in each of the forms
                             <React.Fragment>
                                 <input 
-                                    id="emailAddress"
-                                    name="emailAddress"
+                                    id="username"
+                                    name="username"
                                     type="text"
                                     value={username}
                                     onChange={this.change}
