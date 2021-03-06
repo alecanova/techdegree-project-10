@@ -14,10 +14,14 @@ export class Provider extends Component {
     } 
 
     render() {
-
+        //Create a value object to provide the utility methods of the class Data
         const value = {
             data: this.data,
-        }
+            actions: {
+                signIn: this.signIn,
+                signOut: this.signOut
+            },
+        };
 
         return (
             <Context.Provider value={value}>
