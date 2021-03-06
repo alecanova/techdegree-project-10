@@ -91,8 +91,13 @@ export default class Data {
     /*** USER DATA ***/
 
     async getUser(username, password) {
-      const response = await this.api('/users', 'GET', null, true, {username, password});
-      return this.responseHandler(response, 'Error getting the users.');
+      const response = await this.api(`/users`, 'GET', null, true, {username, password});
+      return this.responseHandler(response, `error getUser: ${username}`);
+    }
+
+    async createUser(user) {
+      const response = await this.api('/users', 'POST', user);
+      return this.responseHandler(response, `error createUser: ${user}`);
     }
 
 }
