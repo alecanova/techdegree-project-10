@@ -8,7 +8,7 @@ import Form from './Form';
 export default class UserSignIn extends Component {
 
     state = {
-        username: '',
+        email: '',
         password: '',
         errors: [],
     }
@@ -17,7 +17,7 @@ export default class UserSignIn extends Component {
     render () {
 
         const { 
-            username, 
+            email, 
             password, 
             errors 
         } = this.state;
@@ -34,10 +34,10 @@ export default class UserSignIn extends Component {
                         elements={() => ( // value is a function which returns the input fields to be used in each of the forms
                             <React.Fragment>
                                 <input 
-                                    id="username"
-                                    name="username"
+                                    id="email"
+                                    name="email"
                                     type="text"
-                                    value={username}
+                                    value={email}
                                     onChange={this.change}
                                     placeholder="Email Address" />
                                 <input 
@@ -68,6 +68,23 @@ export default class UserSignIn extends Component {
                 [name]: value
             };
         });
+    }
+
+    submit = () => {
+        const { context } = this.props;
+        const { email, password } = this.state;
+        context.actions.signIn(email, password)
+            .then( user => {
+                if (user === null) {
+                    return { errors: [ 'Sign-in was unsuccessful' ] };
+                } else {
+                    this.props.history.push('/authenticated');
+                    console.log(`SUCCESS! ${email} is now signed in!`);
+                }
+            })
+            .catch( err => {
+                console.log(err);
+            })
     }
 
     cancel = () => {
