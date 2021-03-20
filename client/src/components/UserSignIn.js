@@ -71,14 +71,18 @@ export default class UserSignIn extends Component {
     }
 
     submit = () => {
+        // access to Data methods
         const { context } = this.props;
+        // sets the path where the user was going after being authenticated
+        const { from } = this.props.location.state || { from: { pathname: '/' } };
+        // user credentials
         const { email, password } = this.state;
         context.actions.signIn(email, password)
             .then( user => {
                 if (user === null) {
                     return { errors: [ 'Sign-in was unsuccessful' ] };
                 } else {
-                    this.props.history.push('/authenticated');
+                    this.props.history.push(from);
                     console.log(`SUCCESS! ${email} is now signed in!`);
                 }
             })
