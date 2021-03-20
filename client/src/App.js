@@ -18,6 +18,7 @@ import UpdateCourse from './components/UpdateCourse';
 
 // Use withContext with all its components.
 import withContext from './Context';
+import PrivateRoute from './PrivateRoute';
 
 const HeaderWithContext = withContext(Header);
 const CoursesWithContext = withContext(Courses);
@@ -41,8 +42,8 @@ export default () => (
         <Route path= "/signin" component={UserSignInWithContext} />
         <Route path= "/signup" component={UserSignUpWithContext} />
         <Route path= "/signout" component={UserSignOutWithContext} />
-        <Route path= "/create" component={CreateCourseWithContext} />
-        <Route path= {`/courses/:id/update`} component={UpdateCourseWithContext} />
+        <PrivateRoute path= "/create" component={CreateCourseWithContext} />
+        <PrivateRoute path= {`/courses/:id/update`} component={UpdateCourseWithContext} />
       </Switch>
     </main>
   </BrowserRouter>
