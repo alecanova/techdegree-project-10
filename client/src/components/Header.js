@@ -2,19 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 
-const Header = () => {
+const Header = ({ context }) => {
 
-        const { context } = this.props;
         const authUser = context.authenticatedUser;
 
         return (
           <div className="header">
             <div className="bounds">
-              <h1 className="header--logo">Courses</h1>
+              <Link to="/">
+                <h1 className="header--logo">Courses</h1>
+              </Link>
               <nav>
                 {authUser ? (
                   <React.Fragment>
-                    <span>Welcome, {authUser.name}!</span>
+                    <span>Welcome, {authUser.firstName}!</span>
                     <Link to="/signout">Sign Out</Link>
                   </React.Fragment>
                 ) : (
