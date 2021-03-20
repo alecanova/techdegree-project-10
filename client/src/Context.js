@@ -7,17 +7,25 @@ const Context = React.createContext();
 
 export class Provider extends Component {
 
+
     constructor() {
         super();
         //Initialize a new instance of the Data class.
         this.data = new Data();
     } 
 
+    state = {
+        authenticatedUser: null
+    };
+
     render() {
+        const { authenticatedUser } = this.state;
+
         //Create a value object to provide the utility methods of the class Data
         const value = {
+            authenticatedUser,
             data: this.data,
-            actions: {
+            actions: { // Add the 'actions' property and object
                 signIn: this.signIn,
                 signOut: this.signOut
             },
@@ -28,6 +36,22 @@ export class Provider extends Component {
                 {this.props.children}
             </Context.Provider>
         );
+    }
+
+    signIn = async (username, password) => {
+        const user = await this.data.getUser(username, password);
+        if (user !== null) {
+            this.setState( () => {
+                return {
+                    authenticatedUser: user,
+                }
+            });
+        }
+        return user;
+    }
+
+    signOut = () => {
+        this.setState({ authenticatedUser: null });
     }
 
 
