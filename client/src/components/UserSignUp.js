@@ -114,7 +114,7 @@ export default class UserSignUp extends Component {
                 if (errors.length) {
                     this.setState({ errors });
                 } else {
-                    console.log(`${username} is succesfully signed up and authenticated`);
+                    console.log(`${emailAddress} is successfully signed up and authenticated`);
                 }
             })
             .catch( err => { //handle rejected promises
