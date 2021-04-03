@@ -31,10 +31,11 @@ export default class CourseDetail extends Component {
 
         // gives access to the data in Data.js and actions in Context.js
         const { context } = this.props;
+        const user = context.authenticatedUser;
         const inputConfirmed = window.confirm('Are you sure you want to delete this course?');
         
         if(inputConfirmed) {
-            context.data.deleteCourse(id)
+            context.data.deleteCourse(user.emailAddress, user.password, id)
                 .then(data => {
                     if(data) { 
                         // if deleted return at the home page
@@ -51,12 +52,13 @@ export default class CourseDetail extends Component {
     render () {
 
         const { course } = this.state;
-        const { user } = course;
 
         let editButtons;
 
-        editButtons = (
-            <div className="actions--bar">
+        if(course.userId === this.props.context.authenticatedUser?.id) {
+
+            editButtons = (
+                <div className="actions--bar">
                 <div className="bounds">
                     <div className="grid-100">
                         <button className="button" onClick={() => this.props.history.push(`/courses/${course.id}/update`)}>
@@ -71,7 +73,23 @@ export default class CourseDetail extends Component {
                     </div>
                 </div>
             </div>
-        );
+            );
+
+        } else {
+            editButtons = (
+                <div className="actions--bar">
+                    <div className="bounds">
+                        <div className="grid-100">
+                            <button className="button button-secondary" onClick={() => this.props.history.push('/')}>
+                                Return to List
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+       
 
         return (
 
