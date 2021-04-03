@@ -6,12 +6,11 @@ import Form from './Form';
 export default class UpdateCourse extends Component {
 
     state = {
-        id: '',
+        id: this.props.match.params.id,
         title: '',
         description: '',
         estimatedTime: '',
         materialsNeeded: '',
-        userId: '',
         errors: [],
     }
 
@@ -28,7 +27,6 @@ export default class UpdateCourse extends Component {
         try {
             const course = await context.data.getCourse(courseId);
             this.setState({ 
-                id: course.id,
                 title: course.title,
                 description: course.description,
                 estimatedTime: course.estimatedTime,
@@ -140,25 +138,23 @@ export default class UpdateCourse extends Component {
     submit = () => {
 
         const {context} = this.props;
-        const user = context.authenticatedUser;
-
-
         const {
-            id,
             title,
             description,
             estimatedTime,
             materialsNeeded,
-            userId
+            id
         } = this.state;
 
-        const course = {id, title, description, materialsNeeded, estimatedTime, userId};
+        const emailAddress = context.authenticatedUser.emailAddress;
+        const password = context.authenticatedUser.password;
+        const userId = context.authenticatedUser.id;
+        const course = {id, title, description, materialsNeeded, estimatedTime, id, userId};
 
-        context.data.updateCourse(user.emailAddress, user.password, course)
-            .then( data => {
-                if(data.errors){
-                    console.log('error');
-                } else {
+        context.data.updateCourse(course, emailAddress, password)
+            .then( errors => {
+                if(errors.length > 0){
+                    this.setState({ errors });
                     this.props.history.push(`/courses/${id}`);
                 }
             })
