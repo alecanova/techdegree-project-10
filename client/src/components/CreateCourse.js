@@ -25,14 +25,16 @@ export default class CreateCourse extends Component {
             errors
         } = this.state;
 
+        const { context } = this.props;
+        const authUser = context.authenticatedUser;
+
         return (
             <div className="bounds course--detail">
                 <h1>Create Course</h1>
                 <Form 
                     cancel={this.cancel}
                     errors={errors} //da fare
-                    change={this.change}
-                    submit={this.submit} //da fare
+                    submit={this.submit} 
                     submitButtonText="Create Course"
                     elements={() => (
                         <React.Fragment>
@@ -48,7 +50,7 @@ export default class CreateCourse extends Component {
                                         onChange={this.change}
                                         placeholder="Course title..." 
                                     />
-                                    <p>By </p>
+                                    <p>By {authUser.firstName} {authUser.lastName}</p>
                                 </div>
                                 <div className="course--description">
                                     <textarea 
@@ -115,25 +117,29 @@ export default class CreateCourse extends Component {
     }
 
     submit = () => {
-        const context = this.props;
-        const user = context.authenticatedUser;
+
+        const {context} = this.props;
+        const authUser = context.authenticatedUser;
+        const authUserEmail = authUser.emailAddress;
+        const authUserPassword = authUser.password;
+        const userId = authUser.id;
 
         const {
             title,
             description,
             estimatedTime,
             materialsNeeded,
-            errors
         } = this.state;
 
-        const course = {title, description, materialsNeeded, estimatedTime, userId: user.id};
+        const course = {title, description, estimatedTime, materialsNeeded, userId };
 
-        context.data.createCourse(user.emailAddress, user.password, course)
-            .then( data => {
-                if(data.errors){
+        context.data.createCourse(authUserEmail, authUserPassword, course)
+            .then( errors => {
+                if(errors.length){
                     this.setState({errors});
+                        return { errors: ['Course was not created'] }
                 } else {
-                    this.props.history.push(data.location);
+                    this.props.history.push('/');
                 }
             })
             .catch( err => {
