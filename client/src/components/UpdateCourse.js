@@ -11,6 +11,7 @@ export default class UpdateCourse extends Component {
         description: '',
         estimatedTime: '',
         materialsNeeded: '',
+        userId: '',
         errors: [],
     }
 
@@ -31,7 +32,8 @@ export default class UpdateCourse extends Component {
                 title: course.title,
                 description: course.description,
                 estimatedTime: course.estimatedTime,
-                materialsNeeded: course.materialsNeeded
+                materialsNeeded: course.materialsNeeded,
+                userId: course.userId
              })
         } catch(error) {
             console.log(error);
@@ -54,7 +56,7 @@ export default class UpdateCourse extends Component {
                     cancel={this.cancel}
                     errors={this.state.errors} //da fare
                     change={this.change}
-                    submit={this.submit} //da fare
+                    submit={this.submit} 
                     submitButtonText="Update Course"
                     elements={() => (
                         <React.Fragment>
@@ -136,7 +138,10 @@ export default class UpdateCourse extends Component {
     }
 
     submit = () => {
-        const context = this.props;
+
+        const {context} = this.props;
+        const user = context.authenticatedUser;
+
 
         const {
             id,
@@ -144,15 +149,15 @@ export default class UpdateCourse extends Component {
             description,
             estimatedTime,
             materialsNeeded,
-            errors
+            userId
         } = this.state;
 
-        const course = {id, title, description, materialsNeeded, estimatedTime};
+        const course = {id, title, description, materialsNeeded, estimatedTime, userId};
 
-        context.data.updateCourse(course)
+        context.data.updateCourse(user.emailAddress, user.password, course)
             .then( data => {
                 if(data.errors){
-                    this.setState({errors});
+                    console.log('error');
                 } else {
                     this.props.history.push(`/courses/${id}`);
                 }
