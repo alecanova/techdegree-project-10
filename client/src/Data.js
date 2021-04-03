@@ -83,8 +83,8 @@ export default class Data {
     }
 
     // create course 
-    async createCourse(emailAddress, password, course) {
-      const response = await this.api('/courses/', 'POST', course, true, {emailAddress, password});
+    async createCourse(course, emailAddress, password) {
+      const response = await this.api(`/courses/`, 'POST', course, true, {emailAddress, password});
       return this.responseHandler(response, `Error creating ${course}`);
     }
 
