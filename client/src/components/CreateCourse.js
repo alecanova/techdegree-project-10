@@ -26,8 +26,7 @@ export default class CreateCourse extends Component {
         } = this.state;
 
         const { context } = this.props;
-        const authUser = context.authenticatedUser;
-
+        
         return (
             <div className="bounds course--detail">
                 <h1>Create Course</h1>
@@ -50,7 +49,7 @@ export default class CreateCourse extends Component {
                                         onChange={this.change}
                                         placeholder="Course title..." 
                                     />
-                                    <p>By {authUser.firstName} {authUser.lastName}</p>
+                                    <p>By {context.authenticatedUser.firstName} {context.authenticatedUser.lastName}</p>
                                 </div>
                                 <div className="course--description">
                                     <textarea 
@@ -119,11 +118,6 @@ export default class CreateCourse extends Component {
     submit = () => {
 
         const {context} = this.props;
-        const authUser = context.authenticatedUser;
-        const authUserEmail = authUser.emailAddress;
-        const authUserPassword = authUser.password;
-        const userId = authUser.id;
-
         const {
             title,
             description,
@@ -131,13 +125,15 @@ export default class CreateCourse extends Component {
             materialsNeeded,
         } = this.state;
 
+        const emailAddress = context.authenticatedUser.emailAddress;
+        const password = context.authenticatedUser.password;
+        const userId = context.authenticatedUser.id;
         const course = {title, description, estimatedTime, materialsNeeded, userId };
 
-        context.data.createCourse(authUserEmail, authUserPassword, course)
+        context.data.createCourse(course, emailAddress, password)
             .then( errors => {
-                if(errors.length){
+                if(errors.length > 0){
                     this.setState({errors});
-                        return { errors: ['Course was not created'] }
                 } else {
                     this.props.history.push('/');
                 }
