@@ -6,11 +6,12 @@ import Form from './Form';
 export default class UpdateCourse extends Component {
 
     state = {
-        id: this.props.match.params.id,
+        id: '',
         title: '',
         description: '',
         estimatedTime: '',
         materialsNeeded: '',
+        userId: '',
         errors: [],
     }
 
@@ -27,6 +28,7 @@ export default class UpdateCourse extends Component {
         try {
             const course = await context.data.getCourse(courseId);
             this.setState({ 
+                id: course.id,
                 title: course.title,
                 description: course.description,
                 estimatedTime: course.estimatedTime,
@@ -49,11 +51,11 @@ export default class UpdateCourse extends Component {
     
         return (
             <div className="bounds course--detail">
-                <h1>Create Course</h1>
+                <h1>Update Course</h1>
                 <Form 
+                    change={this.change}
                     cancel={this.cancel}
                     errors={this.state.errors} //da fare
-                    change={this.change}
                     submit={this.submit} 
                     submitButtonText="Update Course"
                     elements={() => (
@@ -67,8 +69,7 @@ export default class UpdateCourse extends Component {
                                         type="text"
                                         className="input-title course--title--input"
                                         value={title}
-                                        onChange={this.change}
-                                        placeholder="Course title..." 
+                                        onChange={this.change} 
                                     />
                                     <p>By </p>
                                 </div>
@@ -79,7 +80,6 @@ export default class UpdateCourse extends Component {
                                         type="text"
                                         value={description}
                                         onChange={this.change}
-                                        placeholder="Course description..." 
                                     />
                                 </div>
                             </div>
@@ -96,7 +96,6 @@ export default class UpdateCourse extends Component {
                                                 className="course--time--input"
                                                 value={estimatedTime}
                                                 onChange={this.change}
-                                                placeholder="Hours" 
                                             />
                                         </li>
                                         <li className="course--stats--list--item">
@@ -107,7 +106,6 @@ export default class UpdateCourse extends Component {
                                                 type="text"
                                                 value={materialsNeeded}
                                                 onChange={this.change}
-                                                placeholder="List materials..." 
                                             />
                                         </li>
                                     </ul>
@@ -138,20 +136,19 @@ export default class UpdateCourse extends Component {
     submit = () => {
 
         const {context} = this.props;
+        const user = context.authenticatedUser
         const {
+            id,
             title,
             description,
             estimatedTime,
             materialsNeeded,
-            id
+            userId
         } = this.state;
+    
+        const course = {id, title, description, estimatedTime, materialsNeeded, userId};
 
-        const emailAddress = context.authenticatedUser.emailAddress;
-        const password = context.authenticatedUser.password;
-        const userId = context.authenticatedUser.id;
-        const course = {id, title, description, materialsNeeded, estimatedTime, id, userId};
-
-        context.data.updateCourse(course, emailAddress, password)
+        context.data.updateCourse(user.emailAddress, user.password, course)
             .then( errors => {
                 if(errors.length > 0){
                     this.setState({ errors });
@@ -160,7 +157,6 @@ export default class UpdateCourse extends Component {
             })
             .catch( err => {
                 console.log(err);
-                //this.props.history.push("/error");
 
             });
     }
@@ -168,20 +164,6 @@ export default class UpdateCourse extends Component {
     cancel = () => {
         this.props.history.push(`/courses/${this.state.id}`);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
