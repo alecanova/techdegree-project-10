@@ -70,7 +70,7 @@ router.get('/courses/:id', async(req, res) => {
             attributes: {exclude: ['createdAt', 'updatedAt']},
             include: [{
                 model: User,
-                attributes: {exclude: ['emailAddress', 'password', 'createdAt', 'updatedAt']},
+                attributes: ['id', 'firstName', 'lastName', 'emailAddress'],
             }]
         });
         if(course) {
