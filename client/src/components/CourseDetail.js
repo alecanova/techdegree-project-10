@@ -51,6 +51,7 @@ export default class CourseDetail extends Component {
 
     render () {
 
+
         const { course } = this.state;
 
         let editButtons;
