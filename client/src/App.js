@@ -43,7 +43,7 @@ export default () => (
         <Route path= "/signup" component={UserSignUpWithContext} />
         <Route path= "/signout" component={UserSignOutWithContext} />
         <PrivateRoute path= "/create" component={CreateCourseWithContext} />
-        <PrivateRoute path= "/courses/:id/update" component={UpdateCourseWithContext} />
+        <PrivateRoute exact path= "/courses/:id/update" component={UpdateCourseWithContext} />
       </Switch>
     </main>
   </BrowserRouter>
